@@ -1,0 +1,55 @@
+{
+  "_source": "code: amrkt models.py:315-334 (items: type,id,gift,amount,date), topcvetok b0e81f2^ mrkt_watch.py:233-260; значения тестовые",
+  "items": [
+    {
+      "id": "f-1",
+      "type": "sale",
+      "amount": 9500000000,
+      "date": "2026-11-09T09:45:00Z",
+      "gift": {
+        "id": "a1b2c3d4-0000-4000-8000-000000000001",
+        "number": 42,
+        "collectionName": "Evil Eye",
+        "modelName": "Watcher",
+        "backdropName": "Onyx Black",
+        "symbolName": "Moon",
+        "salePrice": 9500000000,
+        "salePriceWithoutFee": 9313725490,
+        "isOnSale": false,
+        "isOnAuction": false,
+        "isMine": false,
+        "isLocked": false,
+        "isLockedForSale": false,
+        "premarketStatus": null,
+        "nextResaleDate": null,
+        "floorPriceNanoTONsByCollection": 7900000000,
+        "floorPriceNanoTONsByBackdropModel": 9000000000
+      }
+    },
+    {
+      "id": "f-2",
+      "type": "listing",
+      "amount": 10000000000,
+      "date": "2026-11-09T09:46:00Z",
+      "gift": {
+        "id": "a1b2c3d4-0000-4000-8000-000000000001",
+        "number": 42,
+        "collectionName": "Evil Eye",
+        "modelName": "Watcher",
+        "backdropName": "Onyx Black",
+        "symbolName": "Moon",
+        "salePrice": 10000000000,
+        "salePriceWithoutFee": 9803921568,
+        "isOnSale": true,
+        "isOnAuction": false,
+        "isMine": false,
+        "isLocked": false,
+        "isLockedForSale": false,
+        "premarketStatus": null,
+        "nextResaleDate": null,
+        "floorPriceNanoTONsByCollection": 7900000000,
+        "floorPriceNanoTONsByBackdropModel": 9000000000
+      }
+    }
+  ]
+}

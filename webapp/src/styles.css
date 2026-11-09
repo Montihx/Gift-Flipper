@@ -1,0 +1,69 @@
+:root {
+  color-scheme: light dark;
+  --bg: var(--tg-theme-bg-color, #ffffff);
+  --bg2: var(--tg-theme-secondary-bg-color, #f2f2f5);
+  --text: var(--tg-theme-text-color, #111111);
+  --hint: var(--tg-theme-hint-color, #8a8a8a);
+  --link: var(--tg-theme-link-color, #2481cc);
+  --btn: var(--tg-theme-button-color, #2481cc);
+  --btn-text: var(--tg-theme-button-text-color, #ffffff);
+  --danger: var(--tg-theme-destructive-text-color, #e53935);
+  --section: var(--tg-theme-section-bg-color, var(--bg));
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg2); color: var(--text); font: 1rem/1.4 system-ui, sans-serif; }
+.app { padding: 0.75rem 0.75rem 5rem; max-inline-size: 40rem; margin-inline: auto; }
+h1 { font-size: 1.35rem; margin-block: 0.5rem 0.75rem; }
+h2 { font-size: 1.05rem; margin-block: 1.25rem 0.5rem; }
+a { color: var(--link); }
+.hint { color: var(--hint); }
+.small { font-size: 0.85rem; }
+.error { color: var(--danger); }
+.banner { font-size: 0.85rem; color: var(--hint); text-align: center; padding-block-end: 0.25rem; }
+.list { display: grid; gap: 1px; background: var(--bg2); border-radius: 0.75rem; overflow: hidden; }
+.row {
+  display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;
+  min-block-size: 3.5rem; padding: 0.6rem 0.9rem; background: var(--section);
+  color: inherit; text-decoration: none;
+}
+.row-main { display: grid; color: inherit; text-decoration: none; flex: 1; min-inline-size: 0; }
+.row-main .hint { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-side { display: grid; justify-items: end; white-space: nowrap; }
+.profit { color: #2e9e4f; font-weight: 600; }
+.badge { font-size: 0.75rem; color: var(--hint); text-transform: uppercase; }
+.status-sold, .status-gone, .status-skipped { opacity: 0.55; }
+.button {
+  display: block; inline-size: 100%; min-block-size: 3rem; margin-block-start: 0.75rem;
+  border: 0; border-radius: 0.75rem; background: var(--btn); color: var(--btn-text);
+  font-size: 1rem; text-align: center; line-height: 3rem; text-decoration: none; cursor: pointer;
+}
+.button:disabled { opacity: 0.6; }
+.button.danger { background: transparent; color: var(--danger); box-shadow: inset 0 0 0 1px var(--danger); }
+.tabs {
+  position: fixed; inset-inline: 0; inset-block-end: 0; display: flex;
+  background: var(--section); border-block-start: 1px solid var(--bg2);
+  padding-block-end: env(safe-area-inset-bottom);
+}
+.tabs a { flex: 1; min-block-size: 3rem; display: grid; place-items: center; color: var(--hint); text-decoration: none; }
+.tabs a[aria-current="page"] { color: var(--link); font-weight: 600; }
+.grid { display: grid; grid-template-columns: max-content 1fr; gap: 0.35rem 1rem; background: var(--section); padding: 0.75rem; border-radius: 0.75rem; }
+.grid dt { color: var(--hint); }
+.grid dd { margin: 0; }
+.warnings { background: var(--section); border-radius: 0.75rem; padding: 0.75rem 0.75rem 0.75rem 2rem; color: var(--danger); }
+table.markets { inline-size: 100%; border-collapse: collapse; background: var(--section); border-radius: 0.75rem; overflow: hidden; }
+table.markets th, table.markets td { padding: 0.5rem; text-align: start; vertical-align: top; border-block-end: 1px solid var(--bg2); }
+table.markets tr.best { font-weight: 600; }
+.chart { margin: 0; background: var(--section); border-radius: 0.75rem; padding: 0.75rem; color: var(--link); }
+.chart svg { inline-size: 100%; block-size: 5rem; }
+form fieldset { border: 0; background: var(--section); border-radius: 0.75rem; margin: 0 0 0.75rem; padding: 0.75rem; }
+form legend { float: inline-start; inline-size: 100%; font-weight: 600; padding: 0; margin-block-end: 0.5rem; }
+form legend + * { clear: both; }
+.field { display: grid; gap: 0.25rem; margin-block-end: 0.9rem; }
+.field input, .field select {
+  font-size: 1rem; min-block-size: 3rem; padding-inline: 0.75rem; border-radius: 0.6rem;
+  border: 1px solid var(--hint); background: var(--bg); color: var(--text);
+}
+.field input:invalid:user-invalid { border-color: var(--danger); }
+.check { display: flex; align-items: center; gap: 0.6rem; min-block-size: 3rem; }
+.check input, .switch input { inline-size: 1.4rem; block-size: 1.4rem; }
+.switch { display: flex; align-items: center; gap: 0.4rem; min-block-size: 3rem; padding-inline-start: 0.5rem; }

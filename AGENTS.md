@@ -85,15 +85,21 @@ CHANGELOG.md
 
 Документация обновляется в том же PR, что и код. PR без обновления документации, где оно нужно, — не готов.
 
-## 7. Команды (заполнить по мере появления)
+## 7. Команды
 
 ```bash
-# backend
-cd backend && uv sync            # или pip install -e .[dev]
+# backend (Python 3.12, uv)
+cd backend && uv sync --python 3.12
 uv run pytest
 uv run ruff check . && uv run ruff format --check .
-uv run alembic upgrade head
-uv run python -m app.engine --dry-run   # цикл без покупок
+uv run alembic upgrade head          # DATABASE_URL из .env
+uv run alembic check                 # модели и миграции совпадают
+uv run python -m app.engine --dry-run --once      # листинги из фикстур
+uv run python -m app.engine --dry-run --plan      # список живых запросов для владельца
+uv run python -m app.engine --dry-run --live --notify   # watch с пушами (LIVE_READS_APPROVED=yes)
+uv run python -m app.bot                           # команды бота, итог дня
+uv run python -m app.tools.login                   # вход Telethon (на ПК владельца)
+uv run uvicorn app.api.main:app --port 8000        # API для Mini App
 
 # webapp
 cd webapp && npm ci && npm run dev

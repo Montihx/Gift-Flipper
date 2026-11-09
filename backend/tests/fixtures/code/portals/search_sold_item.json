@@ -1,0 +1,35 @@
+{
+  "_source": "code: структура из topcvetok test_portals_watch.py:10-28 (raw_gift) и aportalsmp classes/Objects.py; значения тестовые, не живой ответ",
+  "results": [
+    {
+      "id": "0b6f2c1e-1111-4a2b-9c3d-000000000001",
+      "tg_id": "EvilEye-42",
+      "collection_id": "7d1e0c55-2222-4b3c-8d4e-0000000000aa",
+      "external_collection_number": 42,
+      "name": "Evil Eye",
+      "photo_url": "https://example.invalid/p.png",
+      "price": "8",
+      "floor_price": "7.9",
+      "status": "sold",
+      "listed_at": "2026-11-09T09:58:00+00:00",
+      "unlocks_at": "2025-01-01T00:00:00Z",
+      "attributes": [
+        {
+          "type": "model",
+          "value": "Watcher",
+          "rarity_per_mille": 15
+        },
+        {
+          "type": "backdrop",
+          "value": "Onyx Black",
+          "rarity_per_mille": 20
+        },
+        {
+          "type": "symbol",
+          "value": "Moon",
+          "rarity_per_mille": 4
+        }
+      ]
+    }
+  ]
+}

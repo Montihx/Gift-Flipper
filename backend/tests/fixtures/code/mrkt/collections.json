@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Evil Eye",
+    "title": "Evil Eye",
+    "floorPriceNanoTons": 7900000000,
+    "previousDayFloorPriceNanoTons": 8100000000,
+    "volume": 1,
+    "cashbackCoef": 0,
+    "isHidden": false
+  },
+  {
+    "name": "Hidden One",
+    "title": "Hidden",
+    "floorPriceNanoTons": 1000000000,
+    "isHidden": true
+  }
+]
