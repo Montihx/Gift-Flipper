@@ -40,7 +40,7 @@
 ### 2. Оценка Telegram (`payments.getUniqueStarGiftValueInfo`)
 - По README: для конкретного уникального подарка берутся «average, last sale, listed count» (плюс floor), кэш `TG_VALUE_TTL`, ограничение `TG_VALUE_MAX_PER_MIN`, гард `TG_VALUE_GUARD`. Правило: если цена выше **и** средней, **и** последней продажи по Telegram при флоре `low` — не покупать автоматически, а спросить.
 - Автор отмечает: в документации API не определено, что значит «same type», поэтому floor/average/listed count трактуются как контекст коллекции.
-- Сверка с официальной документацией MTProto в этом задании **не выполнялась** (сеть запрещена). По памяти модели, **не проверено**: метод принимает slug уникального подарка и возвращает `payments.uniqueStarGiftValueInfo` с полями вроде `currency`, `value`, `value_is_average`, `initial_sale_date/stars/price`, `last_sale_date`, `last_sale_price`, `last_sale_on_fragment`, `floor_price`, `average_price`, `listed_count`, `fragment_listed_count`, `fragment_listed_url`. Подтвердить по core.telegram.org перед реализацией `pricing/tg_value.py`.
+- Сверка с документацией MTProto выполнена на Этапе 0 отдельно (п. 0.4 плана): поля и ограничения — в `docs/research/SUMMARY.md` §3 (источник: core.telegram.org через результаты поиска и зеркала схемы). В этом отчёте поля не перечисляются, чтобы не дублировать непроверенный пересказ.
 
 ### 3. Модель предохранителей
 - `DRY_RUN=true` по умолчанию — жёсткий замок: пока `true`, никакая команда или сохранённая настройка не включит живой режим. Для живого режима нужно `DRY_RUN=false` в `.env` **и** `/dry off` в боте.
@@ -121,7 +121,7 @@
 
 ## Открытые вопросы
 
-- Поля `payments.getUniqueStarGiftValueInfo` — сверить по core.telegram.org.
+- Поля `payments.getUniqueStarGiftValueInfo` — см. `SUMMARY.md` §3; что значит «подарки того же типа», проверить на живом ответе (Этап 3).
 - Комиссии Portals (0/5%/0.1 TON) и добавляется ли комиссия к цене — проверить на практике.
 - Формат ответа `POST /nfts` и коды ошибок — неизвестны (у автора тоже).
 - Есть ли эндпоинт одного NFT для перепроверки цены перед покупкой.
