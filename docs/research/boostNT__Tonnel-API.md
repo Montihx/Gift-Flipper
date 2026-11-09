@@ -1,59 +1,76 @@
 # boostNT/Tonnel-API
 
+> Источник: клон от 2026-11-09, коммит `688d68f` (688d68f5e955f9a31a639d4e1db660a1f19e4fd2). В репозитории только `README.md` (144 строки), читался как текст. Живых запросов не было: всё ниже — «из README» (строки README.md), сверка — с кодом bleach-hub/tonnelmp `68064f7` (задание C).
+
 - Ссылка: https://github.com/boostNT/Tonnel-API
-- Язык / стек: только документация (README.md) + пример на Python (`curl_cffi`, `fake_useragent`)
-- Лицензия: не указана (на странице репозитория не показана; файлов кроме README.md нет). Код не копируем.
-- Последний коммит / активность: НЕ УДАЛОСЬ ОПРЕДЕЛИТЬ. Страница коммитов закрыта для WebFetch (robots_disallowed), `gh api` и raw.githubusercontent.com недоступны в этой сессии (403 / не в allowlist). Клонировать запрещено правилами задания. Известно только: 15 коммитов в `main`.
-- Звёзды / форки / коммиты: 16 / 0 / 15 (по странице репозитория; 1 watcher)
-- Доверие: среднее. Исходников нет, только текст и один пример запроса; бинарников и исполняемых файлов нет (в списке файлов только README.md). Но документация неполная, ответ API не описан, актуальность не проверена.
+- Язык / стек: только документация на русском + пример на Python (`curl_cffi`, `fake_useragent`).
+- Лицензия: **нет** (файла LICENSE нет, в README не указана). Код не копируем.
+- Последний коммит / активность: 2026-02-07 (`688d68f`) — удалены 3 строки (дисклеймер и контакт), содержание API не менялось. Последнее содержательное изменение — 2025-06-17. Первый коммит — 2025-05-15.
+- Звёзды / форки / коммиты: звёзды/форки не установлено (в прошлой версии отчёта со слов страницы GitHub: 16 / 0, не перепроверено). Коммитов 15 (история полная, меньше лимита клона 50).
+- Доверие: **среднее**. Только текст, бинарников и кода нет. Описан один эндпоинт; автор — тот же boostNT, которого tonnelmp благодарит за «403 fix» (tonnelmp README:109,119), и заголовки tonnelmp 1.2 совпадают с этим README один в один.
 
-## Что делает
+## Что делает (2–3 предложения)
 
-Неофициальная документация на русском к веб-API маркета Tonnel: как получить список листингов подарков тем же запросом, который делает сайт `market.tonnel.network` при загрузке страницы. Описан один эндпоинт, `pageGifts`. В конце P.S. отсылает к клиенту `bleach-hub/tonnelmp` (задание C).
+Неофициальная документация к одному эндпоинту Tonnel — `POST https://gifts2.tonnel.network/api/pageGifts` (список листингов), с разбором полей `filter`/`sort`/`price_range`/`user_auth` и рабочим примером на `curl_cffi`. Покупка, продажа, баланс, авторизация не описаны; в конце ссылка на bleach-hub/tonnelmp как на «полноценную либку» (README:144).
 
 ## Как устроено
-- Источник данных: единственный эндпоинт `POST https://gifts2.tonnel.network/api/pageGifts` (сайт шлёт его при открытии страницы). Polling; WebSocket в README НЕ описан. Частота опроса не указана.
-- Заголовки (из примера): `authority`, `accept`, `accept-encoding`, `accept-language`, `content-type: application/json`, `origin` и `referer` = `https://market.tonnel.network`, `priority`, `sec-ch-ua`, `sec-ch-ua-mobile`, `sec-ch-ua-platform`, `sec-fetch-dest`, `sec-fetch-mode`, `sec-fetch-site`, `user-agent` (случайный из `fake_useragent`). Какие из них обязательны — README не говорит.
-- Тело запроса (JSON):
+- Источник данных: только `POST https://gifts2.tonnel.network/api/pageGifts` (README:10, 135). Polling; WebSocket не упоминается. Частота опроса не указана.
+- Тело (README:18-25, 124-131):
 
 | Поле | Тип | Пример | Заметка |
 |---|---|---|---|
-| `page` | int | `1` | номер страницы |
-| `limit` | int | `5` | максимум 30, больше — ошибка |
-| `sort` | строка с JSON | `'{"message_post_time":-1,"gift_id":-1}'` | сериализованный объект, значения 1 / -1 |
-| `filter` | строка с JSON | см. ниже | сериализованный объект |
-| `price_range` | список или null | `[1,1000]` / `None` | `None` отключает фильтр по цене |
-| `user_auth` | строка | `''` | обязательное поле; пустая строка = без входа |
+| `page` | int | `1` | страница |
+| `limit` | int | `5` | > 30 → `{'error': 'limit is too big'}` (README:31) |
+| `sort` | **строка** JSON | `'{"message_post_time":-1,"gift_id":-1}'` | `json.dumps`, значения 1 / -1 |
+| `filter` | **строка** JSON | см. ниже | `json.dumps` |
+| `price_range` | список или `None` | `[1,1000]` | `None` = без фильтра (README:58) |
+| `user_auth` | str | `''` | «обязательное поле», пустая строка = без входа (README:59) |
 
-  Важно: `sort` и `filter` передаются именно строками (`json.dumps`), а не вложенными объектами.
-- Ключи сортировки: `message_post_time` (время листинга), `export_at` (тоже время листинга; README: `message_post_time` 1 соответствует `export_at` -1 и наоборот), `price`, `gift_num`, `modelRarity`, `backdropRarity`, `symbolRarity`, а также `rarity` и `gift_id` (смысл в README не пояснён). README заявляет 10 вариантов, перечислено 9 — расхождение не разрешено.
-- Структура `filter`: фиксированная часть — `price` существует, `refunded` не true, `buyer` не существует, `export_at` существует (то есть только активные листинги). Необязательные: `gift_name`, `model`, `backdrop`, `pattern`. Значения: точное (с редкостью в скобках, например `"Albino (1.5%)"`), регулярка (`{"$regex": "^Albino \\("}`, не нужно знать редкость) или список (`{"$in": [...]}`). Последнее поле — `asset`: `TON`, `TONNEL`, `USDT` (README: для TONNEL и USDT результатов минимум).
-- Авторизация: поле `user_auth`. Как получить не-пустое значение, его формат и срок жизни README НЕ описывает. Покупка/продажа/баланс не описаны.
-- Модель данных подарка (ответ): README схему ответа не приводит (в примере просто `print(response.json())`). Имена, косвенно видимые из sort/filter: `gift_name`, `model`, `backdrop`, `pattern`, `gift_num`, `gift_id`, `price`, `asset`, `buyer`, `refunded`, `export_at`, `message_post_time`, `modelRarity`, `backdropRarity`, `symbolRarity`. Это НЕ подтверждённые поля ответа. Поле `symbol` (в задании C) здесь называется `pattern` в фильтре, но `symbolRarity` в сортировке — соответствие не подтверждено.
-- Цена: README ничего не говорит о комиссии и единицах (только фильтр `asset` и `price_range`). Входит ли 10% комиссия покупки в `price` — из этого репо НЕ следует. Утверждение «цена без 10%» из AGENTS/задания C остаётся заявленным другими источниками и должно быть сверено с tonnelmp и проверено практикой.
-- Защита от ботов: README утверждает, что `requests`/`httpx` не работают; нужен `curl_cffi` с `impersonate="chrome"` и случайный User-Agent (то есть имитируются TLS-отпечаток и браузерные заголовки). Механизм защиты не раскрыт (Cloudflare или иное — не сказано).
-- Лимиты: не описаны, кроме `limit` ≤ 30 на страницу.
-- Оценка/флор, покупка/продажа, предохранители, уведомления, хранение состояния: в репо отсутствуют.
+- Фильтр (README:45-56): фиксированная часть `price` exists, `refunded` ≠ true, `buyer` not exists, `export_at` exists; опционально `gift_name`, `model`, `backdrop`, `pattern`; значения — точная строка с редкостью (`"Albino (1.5%)"`), regex `{"$regex": "^Albino \\("}`, список `{"$in": [...]}` или regex-альтернатива `^(A|B)`; в конце `asset`: `TON`/`TONNEL`/`USDT`.
+- Сортировки (README:36-42): `message_post_time`, `export_at`, `price`, `gift_num`, `modelRarity`/`backdropRarity`/`symbolRarity`, `rarity` и `gift_id` («неизвестно»).
+- Защита (README:65, 81-97, 135): `requests`/`httpx` «не подойдут», нужен `curl_cffi` с `impersonate="chrome"` и случайный UA из `fake_useragent`. Заголовки: `authority: gifts2.tonnel.network`, `accept: */*`, `accept-encoding: gzip, deflate, br, zstd`, `accept-language: ru-RU,...`, `content-type: application/json`, `origin: https://market.tonnel.network`, `priority: u=1, i`, `referer: https://market.tonnel.network/`, `sec-ch-ua` (Chrome 137), `sec-ch-ua-mobile: ?0`, `sec-ch-ua-platform: "Windows"`, `sec-fetch-dest: empty`, `sec-fetch-mode: cors`, `sec-fetch-site: same-site`, `user-agent`. Cookies нет. В истории (2025-06-17) ранее был фиксированный UA Chrome 135 вместо случайного.
+- Авторизация: только поле `user_auth`; что туда класть для залогиненного пользователя — не описано.
+- Модель данных, оценка/флор, комиссии, покупка/продажа, предохранители, уведомления, хранение состояния: в README отсутствуют. Ответ не описан (пример просто печатает `response.json()`).
+
+## Сверка с bleach-hub/tonnelmp (код `tonnelmp/marketapi.py`)
+
+| Пункт | boostNT (README) | tonnelmp (код) | Вывод |
+|---|---|---|---|
+| URL поиска | `gifts2.tonnel.network/api/pageGifts` | тот же (`marketapi.py:76`) | совпадает |
+| `filter`/`sort` как JSON-строки | да | да (`json.dumps`, `marketapi.py:161,164`) | совпадает |
+| `price_range` «без фильтра» | `None` | `0` (`marketapi.py:172`) | **расхождение**; какое значение принимает сервер — проверить (оба, видимо, работали) |
+| поле `ref` | нет | `ref: 0` (`marketapi.py:165`; `references.txt:11`) | **расхождение**; tonnelmp повторяет фронтенд |
+| фильтр по узору | `pattern` | `symbol` (`marketapi.py:151-155`, `references.txt:35-37`, поле ответа `symbol`) | **расхождение, boostNT, вероятно, ошибается**: в БД поле `symbol` (и сорт `symbolRarity`) |
+| смысл `export_at` | «время выставления» | «mint_time»; README tonnelmp:182 — «когда подарок можно минтить» | **расхождение**, верить tonnelmp |
+| `rarity` в сорте | «неизвестно» | «rarity score» (`marketapi.py:89`) | уточнение |
+| число сортировок | «их всего 10», перечислено 9 ключей | 10 пресетов на 8 ключах (`marketapi.py:84-95`) | по сути совпадает |
+| `$in` и regex-альтернатива | описаны | в коде не используются | только из README boostNT, не проверено |
+| `limit` > 30 | ошибка `limit is too big` | «максимум 30, as far as i know» | согласуется |
+| `user_auth` | обязательное, `''` = гость | `""` по умолчанию; `initData` для `myGifts` | согласуется |
+| impersonate | `"chrome"` (последний профиль curl_cffi) | `"chrome110"` | **расхождение**; профиль надо выбирать один и согласовывать с UA/`sec-ch-ua` |
+| заголовки | набор выше | тот же набор (tonnelmp 1.2 взял отсюда) | совпадает |
+| ссылка на сайт | `tonnel-gift.vercel.app` (README:3) | `market.tonnel.network` (Origin/Referer, README tonnelmp:48) | **расхождение**; рабочий фронтенд по обоим — `market.tonnel.network` (заголовки boostNT тоже его) |
+| покупка/продажа/баланс/флоры/история | нет | есть (см. отчёт C) | boostNT покрывает только поиск |
+| WebSocket | нет | нет | — |
 
 ## Что берём
 | Что | Куда у нас | Как |
 |---|---|---|
-| Эндпоинт `pageGifts`, формат тела (`sort`/`filter` как JSON-строки, `limit` ≤ 30, `price_range`, `user_auth`) | `docs/MARKETS.md#tonnel`, `markets/tonnel.py` | переписать самим; сверить с tonnelmp, записать фикстуры ответов |
-| Фильтр активных листингов (`price` exists, `refunded` не true, `buyer` не существует, `export_at` exists) | `markets/tonnel.py` | взять как базовый фильтр поиска |
-| Регэксп вместо точного значения с редкостью (`"^Albino \\("`) | `markets/tonnel.py` | приём для фильтра по модели/фону без знания процента |
-| `curl_cffi` с `impersonate="chrome"` + случайный UA | `markets/tonnel.py` | в соответствии с AGENTS.md §2; пулы UA и заголовков настраиваемые |
-| Ключи сортировки (в т.ч. по времени листинга) | `markets/tonnel.py` | для ленты новых листингов: `message_post_time: -1` |
+| Подтверждение формата `pageGifts` (`filter`/`sort` строками, `limit` ≤ 30, ответ-ошибка `limit is too big`) | `docs/MARKETS.md#tonnel`, `markets/tonnel.py` | формат API; основной источник — tonnelmp |
+| Фильтр по нескольким значениям `{"$in": [...]}` | `markets/tonnel.py` | идея, проверить вживую (в tonnelmp нет) |
 
 ## Что НЕ берём и почему
-- Пример кода целиком: нет лицензии, и он нам не нужен (короткий и тривиальный).
-- Любые утверждения о ценах/комиссии: в репо их нет.
-- Ничего про покупку, авторизацию и WebSocket: не документировано, придётся искать в tonnelmp, topcvetok/telegram-gift-watch (задания A, C) или проверять самим на трафике сайта.
+- Пример кода: лицензии нет, и он тривиален.
+- `pattern` как имя поля и трактовку `export_at` как «время выставления» — противоречат коду tonnelmp.
+- `impersonate="chrome"` без фиксации версии — профиль меняется с версией curl_cffi; у нас версия профиля должна быть зафиксирована и согласована с заголовками.
 
 ## Открытые вопросы
-- Дата последнего коммита и лицензия: не подтверждены (см. выше). Нужен доступ к `gh api` или странице коммитов.
-- Схема ответа `pageGifts` (названия полей, формат `price`, наличие комиссии, формат `gift_num`/`gift_id`, поле с картинкой/ссылкой) — не описана; снять через tonnelmp или записать фикстуру.
-- Что означают `rarity` и `gift_id` в сортировке; сколько всего ключей сортировки (9 или 10).
-- Что в `user_auth` для залогиненного пользователя (вероятно связано с `initData`, но README этого не говорит), срок жизни.
-- Эндпоинты покупки, продажи, баланса, WebSocket Tonnel — отсутствуют в этом репо.
-- Есть ли лимиты запросов и блокировки по IP; каким именно образом срабатывает защита.
-- Актуально ли всё это сейчас: домен `gifts2.tonnel.network` и формат могли измениться, проверка не выполнялась (запросы к маркету из этого задания запрещены).
+- `price_range`: `None` или `0`; нужен ли `ref: 0`.
+- Работает ли `$in`/regex-альтернатива в фильтре.
+- Актуальность эндпоинта и заголовков на сегодня (содержание не менялось с 2025-06).
+
+## Для MARKETS.md
+- Подтверждает (из README, совпадает с кодом tonnelmp): `POST https://gifts2.tonnel.network/api/pageGifts`, `filter`/`sort` — JSON-строки, `limit` ≤ 30 (иначе `{'error': 'limit is too big'}`), `user_auth: ""` для гостя, curl_cffi + браузерные заголовки с `Origin/Referer: https://market.tonnel.network`.
+- Расхождения с tonnelmp: `price_range` `None` (boostNT) vs `0` (tonnelmp); `ref: 0` есть только в tonnelmp; фильтр узора `pattern` (boostNT) vs `symbol` (tonnelmp — верно по коду и полям ответа); `export_at` = время минта (tonnelmp), а не листинга; impersonate `chrome` vs `chrome110`.
+- Только у boostNT (не проверено): мультивыбор `{"$in": [...]}` и regex `^(A|B)` в фильтре.
+- Лицензии нет; покупка/продажа/баланс/WS не описаны.
