@@ -65,3 +65,8 @@ def test_mock_run_prints(capsys):
     assert main(["--dry-run", "--once"]) == 0
     out = capsys.readouterr().out
     assert out.count("\n") == 7
+
+
+def test_notify_requires_live():
+    with pytest.raises(SystemExit):
+        main(["--dry-run", "--notify", "--once"])

@@ -62,6 +62,15 @@ async def run(args: argparse.Namespace) -> int:
         from app.engine.live import live_clients
 
         clients, close = await live_clients(settings, record_dir=args.record)
+        if args.notify:
+            from app.engine.watch import run_watch
+
+            try:
+                return await run_watch(settings, clients, args.once)
+            finally:
+                for c in clients:
+                    await c.aclose()
+                await close()
     else:
         clients, close = mock_clients(), None
     try:
@@ -94,7 +103,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     p.add_argument("--limit", type=int, default=20)
     p.add_argument("--collection", action="append", default=[], help="коллекция (можно несколько)")
     p.add_argument("--record", type=Path, default=None, help="папка для записи ответов (live)")
+    p.add_argument("--notify", action="store_true", help="пуши по пресетам в бот (только с --live)")
     args = p.parse_args(argv)
+    if args.notify and not args.live:
+        p.error("--notify работает только с --live")
     setup_logging(get_settings().log_level)
     return asyncio.run(run(args))
 
