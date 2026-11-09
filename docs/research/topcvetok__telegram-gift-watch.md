@@ -7,9 +7,9 @@
 - Лицензия: **нет**. Файла LICENSE в репозитории нет, в README (135 строк) упоминаний лицензии тоже нет (проверено grep по `licen|MIT`). Код копировать нельзя (AGENTS.md §4 п.4), берём только идеи и описания API.
 - Последний коммит / активность: 2026-11-01 00:05 +0300, «Explain Portals listing rejections». В неглубоком клоне самый ранний коммит датирован 2026-10-12. По README.md:3 проект начат 11.10.2026. Активная разработка шла около 3 недель, автор один (`n1kseeman`).
 - Звёзды / форки / коммиты: звёзды и форки не установлены (api.github.com закрыт). Коммитов ≥50 (неглубокий клон, упёрлись в лимит 50).
-- Доверие: **среднее–высокое как источник идей**. Код чистый и читаемый, есть ~20 тестовых файлов, ничего не обфусцировано. `base64`, `exec`, `eval`, `subprocess` и скачивания бинарников grep не нашёл. Секретов в репозитории нет: все токены берутся из GitHub Secrets (gift-watch.yml:72-98). Что настораживает:
+- Доверие: **среднее–высокое как источник идей**. Код чистый и читаемый, есть ~20 тестовых файлов, ничего не обфусцировано. `base64`, `exec`, `eval`, `subprocess` и скачивания бинарников grep не нашёл. Секретов в репозитории нет: все токены берутся из GitHub Secrets (gift-watch.yml:45-71). Что настораживает:
   - события Tonnel берутся **не с домена Tonnel**, а со стороннего `gifts.coffin.meme` (tonnel_watch.py:29-30);
-  - GitHub Actions используется как круглосуточный сервер: workflow сам ставит себя в очередь (gift-watch.yml:169-178);
+  - GitHub Actions используется как круглосуточный сервер: workflow сам ставит себя в очередь (gift-watch.yml:142-151);
   - в истории есть удалённый workflow `temporary-socks-proxy.yml` (коммит 8de2bf6, удалён в 6d51bf6). Он поднимал SOCKS-прокси на раннере и пробрасывал его наружу через `free.pinggy.io` для входа в MRKT. Это не малварь, но практика, которую мы не повторяем.
 
 ## Что делает (2–3 предложения)
@@ -40,7 +40,7 @@
   - Swift: 1 запрос в 1,05 с. 429 → по умолчанию 60 с; 401/403/402 → останов (mrkt_watch.py:34, 56-94).
   - Фильтры лотов: исключаются аукционы, премаркет, залоговые лоты (`underLoan`), лоты с будущим `unlocks_at`/`nextResaleDate` и цены выше `max_lot` (2000 ₽) (tonnel_watch.py:260-271; portals_watch.py:124-126; mrkt_watch.py:227-235).
 - **Уведомления / UI:** Telegram Bot API `sendMessage` и `editMessageText` в HTML-разметке. Большое превью `t.me/nft/<slug>` над текстом, inline-кнопка «Открыть оффер» (bot.py:143-201). Текст карточки строится в alert_format.py:37-120. Mini App на GitHub Pages с тремя вкладками (README.md:27). Настройки приходят в бота через `web_app_data` (settings_bot.py:216-219), доступ для других пользователей — по `/join <код>` (settings_bot.py:203-204).
-- **Хранение состояния:** SQLite `state.sqlite3` и `settings.sqlite3` в режиме WAL (tonnel_watch.py:957-963). Между запусками Actions база живёт в кэше Actions, перед сохранением делается checkpoint (gift-watch.yml:61-70, 142-155). История и настройки дублируются в Supabase (п.9).
+- **Хранение состояния:** SQLite `state.sqlite3` и `settings.sqlite3` в режиме WAL (tonnel_watch.py:957-963). Между запусками Actions база живёт в кэше Actions, перед сохранением делается checkpoint (gift-watch.yml:34-43, 115-128). История и настройки дублируются в Supabase (п.9).
 
 ---
 
@@ -194,7 +194,7 @@
   - Бюджет прогрева: `variant_query_budget_per_cycle` = 2 и `…_per_event` = 2 (config.json:68-69). Ключи книг сверх бюджета в этом цикле не запрашиваются (tonnel_watch.py:194-196).
   - `cross_market_floor_cache_seconds` = 120 (:58) задан, но **в коде не используется** (grep не нашёл).
 - **SQLite:** WAL, `busy_timeout` 30000 для state и 5000 для settings (tonnel_watch.py:957-963). Перед сетевыми запросами явно делается `commit`, чтобы не держать блокировку записи (tonnel_watch.py:743-744; portals_watch.py:703-704; коммит 8130015 «Prevent listener database lockups»).
-- **checkpoint_sqlite.py:** для `state.sqlite3` и `settings.sqlite3` выполняет `PRAGMA wal_checkpoint(TRUNCATE)`. Если результат busy, бросает ошибку (:8, 11-20). Запускается в шаге `if: always()` перед `actions/cache/save` (gift-watch.yml:142-155). Каждый запуск Actions восстанавливает базы из кэша по префиксу ключа и удаляет старые кэши (:61-70, 157-167). Процессы живут `STREAM_SECONDS` = 3300 с, затем workflow ставит себя в очередь снова (cron `17 * * * *` плюс самозапуск, :5, 169-178).
+- **checkpoint_sqlite.py:** для `state.sqlite3` и `settings.sqlite3` выполняет `PRAGMA wal_checkpoint(TRUNCATE)`. Если результат busy, бросает ошибку (:8, 11-20). Запускается в шаге `if: always()` перед `actions/cache/save` (gift-watch.yml:115-128). Каждый запуск Actions восстанавливает базы из кэша по префиксу ключа и удаляет старые кэши (:34-43, 130-140). Процессы живут `STREAM_SECONDS` = 3300 с, затем workflow ставит себя в очередь снова (cron `17 * * * *` плюс самозапуск, :5, 142-151).
 - **history_store.py:**
   - Токен доступа чата = `HMAC-SHA256(history_writer_token, chat_id)` (:15-21).
   - Записи сначала попадают в очередь SQLite `history_outbox(chat_id, kind, event_key PK…)` и отправляются POST'ом на Edge Function с заголовком `x-writer-token`. При ошибке сети запись остаётся в очереди до следующего вызова (:24-31, 34-63, 90-139).
