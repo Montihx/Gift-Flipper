@@ -18,13 +18,13 @@
 **Готово, когда:** для каждого маркета известно, как получить листинги, флоры, продажи и как купить; стек утверждён. **Выполнено** по исходникам. Остаются (не блокируют Этап 1): живые форматы ответов, бот/short_name Mini App Tonnel, soft/hard баланс MRKT, проверка комиссий владельцем — см. `SUMMARY.md` §5.
 
 ## Этап 1. Каркас репозитория
-- [ ] 1.1 Структура `backend/`, `webapp/`, `docs/` как в AGENTS.md §3
-- [ ] 1.2 `settings.py` (pydantic-settings), `.env.example`, `DRY_RUN=true` по умолчанию
-- [ ] 1.3 PostgreSQL + Alembic, первая миграция
-- [ ] 1.4 CI: ruff, pytest, сборка webapp
-- [ ] 1.5 `CHANGELOG.md`, `docs/DECISIONS.md`, `docs/MARKETS.md` — пустые шаблоны
+- [x] 1.1 Структура `backend/`, `webapp/`, `docs/` как в AGENTS.md §3 (2026-11-09)
+- [x] 1.2 `settings.py` (pydantic-settings), `.env.example`, `DRY_RUN=true` по умолчанию; `DRY_RUN=false` отклоняется до Этапа 7 (2026-11-09). Плюс `money.py` (nanoTON), `timeutil.py` (UTC), `security.py` (маскирование секретов, права 600)
+- [x] 1.3 PostgreSQL + Alembic, первая миграция `0001` (`listings`, `sales`); проверено upgrade/downgrade/upgrade и `alembic check` на PostgreSQL 16 (2026-11-09)
+- [x] 1.4 CI: ruff, pytest, миграции на PostgreSQL, сборка webapp (`.github/workflows/ci.yml`) (2026-11-09)
+- [x] 1.5 `CHANGELOG.md`; `DECISIONS.md`, `MARKETS.md` уже заполнены на Этапе 0 (2026-11-09)
 
-**Готово, когда:** CI зелёный на пустом проекте.
+**Готово, когда:** CI зелёный на пустом проекте. Локально зелёные ruff, pytest (43), миграции, `npm run build`; статус CI на GitHub — см. PR.
 
 ## Этап 2. Клиенты маркетов (только чтение)
 - [ ] 2.1 Общий интерфейс `MarketClient`: `search`, `floors`, `recent_sales`, `get_listing`; нормализованная модель `Listing` (маркет, id, коллекция, модель, фон, символ, редкости, номер, цена в nanoTON, all-in цена, время, ссылка)
