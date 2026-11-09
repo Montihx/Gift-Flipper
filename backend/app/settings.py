@@ -41,6 +41,8 @@ class Settings(BaseSettings):
     tg_api_id: int | None = None
     tg_api_hash: SecretStr | None = None
     tg_session_name: str = "owner"
+    webapp_url: str | None = None  # https-адрес Mini App (для кнопки и Menu Button)
+    daily_summary_hour_utc: int = Field(default=18, ge=0, le=23)
 
     # Бюджет запросов к маркетам (D-008)
     market_min_interval_s: float = Field(default=1.0, ge=0.5)
