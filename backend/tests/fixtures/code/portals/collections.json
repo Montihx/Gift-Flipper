@@ -1,0 +1,27 @@
+{
+  "_source": "code: aportalsmp gifts.py:17-106 (collections: id,name,short_name,floor_price,day_volume,volume,supply,photo_url), topcvetok portals_watch.py:214-287 (sales_24h_count); значения тестовые",
+  "collections": [
+    {
+      "id": "7d1e0c55-2222-4b3c-8d4e-0000000000aa",
+      "name": "Evil Eye",
+      "short_name": "evileye",
+      "floor_price": "7.9",
+      "day_volume": "120.5",
+      "volume": "9000",
+      "supply": 30000,
+      "photo_url": "https://example.invalid/c.png",
+      "sales_24h_count": 11
+    },
+    {
+      "id": "7d1e0c55-2222-4b3c-8d4e-0000000000bb",
+      "name": "Plush Pepe",
+      "short_name": "plushpepe",
+      "floor_price": "5200",
+      "day_volume": "0",
+      "volume": "1",
+      "supply": 2800,
+      "photo_url": "",
+      "sales_24h_count": 0
+    }
+  ]
+}

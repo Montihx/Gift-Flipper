@@ -1,0 +1,14 @@
+{
+  "_source": "code: tonnelmp marketapi.py:1368-1387 (data: 'Gift_Model (r%)': {floorPrice, howMany}); значения тестовые",
+  "status": "success",
+  "data": {
+    "Chill Flame_Lego (3%)": {
+      "floorPrice": 3.57,
+      "howMany": 12
+    },
+    "Chill Flame_Rare Model (1%)": {
+      "floorPrice": 0,
+      "howMany": 0
+    }
+  }
+}

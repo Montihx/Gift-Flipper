@@ -1,0 +1,77 @@
+{
+  "_source": "code: aportalsmp gifts.py:230-318 + Objects.py:364-388 (actions: nft,type,amount,offer_id,created_at); значения тестовые",
+  "actions": [
+    {
+      "nft": {
+        "id": "0b6f2c1e-1111-4a2b-9c3d-000000000002",
+        "tg_id": "EvilEye-77",
+        "collection_id": "7d1e0c55-2222-4b3c-8d4e-0000000000aa",
+        "external_collection_number": 77,
+        "name": "Evil Eye",
+        "photo_url": "https://example.invalid/p.png",
+        "price": "9.15",
+        "floor_price": "7.9",
+        "status": "sold",
+        "listed_at": "2026-11-09T09:58:00+00:00",
+        "unlocks_at": "2025-01-01T00:00:00Z",
+        "attributes": [
+          {
+            "type": "model",
+            "value": "Watcher",
+            "rarity_per_mille": 15
+          },
+          {
+            "type": "backdrop",
+            "value": "Black",
+            "rarity_per_mille": 20
+          },
+          {
+            "type": "symbol",
+            "value": "Moon",
+            "rarity_per_mille": 4
+          }
+        ]
+      },
+      "type": "buy",
+      "amount": "9.15",
+      "offer_id": null,
+      "created_at": "2026-11-09T09:40:00+00:00"
+    },
+    {
+      "nft": {
+        "id": "0b6f2c1e-1111-4a2b-9c3d-000000000001",
+        "tg_id": "EvilEye-42",
+        "collection_id": "7d1e0c55-2222-4b3c-8d4e-0000000000aa",
+        "external_collection_number": 42,
+        "name": "Evil Eye",
+        "photo_url": "https://example.invalid/p.png",
+        "price": "8",
+        "floor_price": "7.9",
+        "status": "listed",
+        "listed_at": "2026-11-09T09:58:00+00:00",
+        "unlocks_at": "2025-01-01T00:00:00Z",
+        "attributes": [
+          {
+            "type": "model",
+            "value": "Watcher",
+            "rarity_per_mille": 15
+          },
+          {
+            "type": "backdrop",
+            "value": "Onyx Black",
+            "rarity_per_mille": 20
+          },
+          {
+            "type": "symbol",
+            "value": "Moon",
+            "rarity_per_mille": 4
+          }
+        ]
+      },
+      "type": "listing",
+      "amount": "8",
+      "offer_id": null,
+      "created_at": "2026-11-09T09:30:00+00:00"
+    }
+  ]
+}
