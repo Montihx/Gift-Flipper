@@ -94,7 +94,11 @@ uv run pytest
 uv run ruff check . && uv run ruff format --check .
 uv run alembic upgrade head          # DATABASE_URL из .env
 uv run alembic check                 # модели и миграции совпадают
-uv run python -m app.engine --dry-run   # цикл без покупок (Этап 2)
+uv run python -m app.engine --dry-run --once      # листинги из фикстур
+uv run python -m app.engine --dry-run --plan      # список живых запросов для владельца
+uv run python -m app.engine --dry-run --live --notify   # watch с пушами (LIVE_READS_APPROVED=yes)
+uv run python -m app.bot                           # команды бота, итог дня
+uv run python -m app.tools.login                   # вход Telethon (на ПК владельца)
 
 # webapp
 cd webapp && npm ci && npm run dev
