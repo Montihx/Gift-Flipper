@@ -3,7 +3,7 @@ from datetime import UTC, datetime
 import pytest
 
 from app.markets import mrkt, portals, tonnel
-from app.markets.base import MarketClient, SchemaError, SearchQuery, strip_rarity
+from app.markets.base import MarketClient, SchemaError, SearchQuery, rarity_permille, strip_rarity
 from app.markets.http import HttpError
 from app.markets.mock import MockClient
 from tests.conftest import FakeTransport, load_fixture, ok, ok_fixture
@@ -37,6 +37,7 @@ async def test_portals_search_public_and_parsed(make_http):
         42,
     )
     assert first.locked_until is None  # unlocks_at в прошлом
+    assert (first.model_rarity_pm, first.backdrop_rarity_pm, first.symbol_rarity_pm) == (15, 20, 4)
     assert items[1].price_nano == 9_150_000_000
     assert items[2].locked_until == datetime(2999, 1, 1, tzinfo=UTC)
     search = t.sent[-1]
@@ -191,6 +192,7 @@ async def test_tonnel_search_body_and_filtering(make_http):
         ("43", 3_570_000_000),
     ]
     assert (items[0].model, items[0].backdrop, items[0].symbol) == ("Lego", "Black", "Star")
+    assert (items[0].model_rarity_pm, items[0].backdrop_rarity_pm) == (30, 10)
     body = t.sent[0].json_body
     assert body["limit"] == 30
     assert body["user_auth"] == ""
@@ -280,6 +282,14 @@ async def test_tonnel_stream_events():
 )
 def test_strip_rarity(raw, clean):
     assert strip_rarity(raw) == clean
+
+
+@pytest.mark.parametrize(
+    ("raw", "pm"),
+    [("Black (1%)", 10), ("Lego (0.5%)", 5), ("X (2,5%)", 25), ("Onyx", None), (None, None)],
+)
+def test_rarity_permille(raw, pm):
+    assert rarity_permille(raw) == pm
 
 
 async def test_mock_client_protocol_and_filters():

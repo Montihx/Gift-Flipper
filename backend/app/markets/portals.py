@@ -49,11 +49,20 @@ def _price(value: Any) -> int:
     return ton_to_nano(value)
 
 
-def _attr(gift: dict[str, Any], kind: str) -> str | None:
+def _attr(gift: dict[str, Any], kind: str, field: str = "value") -> Any:
     for attr in gift.get("attributes") or []:
         if isinstance(attr, dict) and attr.get("type") == kind:
-            return attr.get("value")
+            return attr.get(field)
     return None
+
+
+def _pm(gift: dict[str, Any], kind: str) -> int | None:
+    """`rarity_per_mille` (из кода aportalsmp Objects.py)."""
+    v = _attr(gift, kind, "rarity_per_mille")
+    try:
+        return int(v) if v is not None else None
+    except (TypeError, ValueError):
+        return None
 
 
 def _time(value: Any) -> datetime | None:
@@ -87,6 +96,9 @@ def parse_gift(gift: dict[str, Any]) -> Listing:
         url=f"https://t.me/portals/market?startapp=gift_{listing_id}",
         locked_until=unlocks if unlocks and unlocks > utcnow() else None,
         raw_id=gift.get("tg_id"),
+        model_rarity_pm=_pm(gift, "model"),
+        backdrop_rarity_pm=_pm(gift, "backdrop"),
+        symbol_rarity_pm=_pm(gift, "symbol"),
     )
 
 

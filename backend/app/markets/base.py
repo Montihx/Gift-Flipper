@@ -9,12 +9,29 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from datetime import datetime
+from decimal import Decimal, InvalidOperation
 from typing import Literal, Protocol, runtime_checkable
 
 Market = Literal["portals", "mrkt", "tonnel"]
 MARKETS: tuple[Market, ...] = ("portals", "mrkt", "tonnel")
 
 _RARITY_SUFFIX = re.compile(r"\s*\(\s*[\d.,]+\s*%\s*\)\s*$")
+
+
+_RARITY_VALUE = re.compile(r"\(\s*([\d.,]+)\s*%\s*\)\s*$")
+
+
+def rarity_permille(value: str | None) -> int | None:
+    """`"Black (1.5%)"` → 15 (‰). Нет суффикса → None."""
+    if not value:
+        return None
+    m = _RARITY_VALUE.search(str(value))
+    if not m:
+        return None
+    try:
+        return int(Decimal(m.group(1).replace(",", ".")) * 10)
+    except InvalidOperation:
+        return None
 
 
 def strip_rarity(value: str | None) -> str | None:
@@ -45,6 +62,10 @@ class Listing:
     # Цена с комиссией покупателя заполняется в pricing/ (Этап 3), не клиентом.
     all_in_nano: int | None = None
     raw_id: str | None = None  # gift_id/tg_id маркета, если отличается от listing_id
+    # Редкость атрибутов, промилле (15 = 1.5%). None — маркет не сообщает.
+    model_rarity_pm: int | None = None
+    backdrop_rarity_pm: int | None = None
+    symbol_rarity_pm: int | None = None
 
     @property
     def key(self) -> str:

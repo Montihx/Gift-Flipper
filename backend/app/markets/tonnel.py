@@ -27,6 +27,7 @@ from app.markets.base import (
     Sale,
     SchemaError,
     SearchQuery,
+    rarity_permille,
     strip_rarity,
 )
 from app.markets.http import MarketHttp, Route
@@ -109,6 +110,9 @@ def parse_gift(gift: dict[str, Any], *, price: Any = None) -> Listing:
         is_bundle=gift_id < 0,
         is_premarket=bool(gift.get("premarketData")),
         is_auction=bool(gift.get("auction") or gift.get("dutchAuctionData")),
+        model_rarity_pm=rarity_permille(gift.get("model")),
+        backdrop_rarity_pm=rarity_permille(gift.get("backdrop")),
+        symbol_rarity_pm=rarity_permille(gift.get("symbol")),
     )
 
 
