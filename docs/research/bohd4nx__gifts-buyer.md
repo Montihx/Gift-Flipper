@@ -12,6 +12,7 @@
 Повторная попытка после принятия D-004 (git clone и raw доступны для других репозиториев в той же сессии):
 - `git clone https://github.com/bohd4nx/gifts-buyer` → `could not read Username for 'https://github.com'` — так GitHub отвечает на несуществующий или приватный репозиторий (другие публичные репо в той же сессии клонируются без авторизации).
 - `raw.githubusercontent.com/bohd4nx/gifts-buyer/{HEAD,main}/README.md` → 404; варианты имени `GiftsBuyer`, `Gifts-Buyer` → 404.
+- `git ls-remote` для `bohd4nx/GiftsBuyer` и `bohd4nx/Gifts-Buyer` → тот же ответ (не найден). Для сравнения `bohd4nx/GiftsTracker` отдаёт тот же коммит, что `gifts-tracker` (редирект после переименования), то есть у автора переименования бывали, но у gifts-buyer редиректа нет.
 - Вывод: репозиторий удалён, переименован или стал приватным. Код не прочитан. Соседний репозиторий автора `bohd4nx/gifts-tracker` доступен и разобран отдельно (`bohd4nx__gifts-tracker.md`, раздел «Связь с gifts-buyer», если что-то найдено).
 
 История первой попытки:
