@@ -21,6 +21,7 @@ from app.bot.texts import format_deal, format_gone, format_price_changed, format
 from app.models import Alert, BotState
 from app.money import format_ton
 from app.pricing.deal import Deal
+from app.pricing.snapshot import deal_snapshot
 from app.rules.match import Match
 from app.timeutil import utcnow
 
@@ -130,6 +131,7 @@ class Notifier:
                     deal_keyboard(existing.id, x.url, self._webapp, match.effective_mode),
                 )
                 existing.price_nano, existing.text = x.price_nano, new_text
+                existing.payload = deal_snapshot(deal)
                 existing.profit_nano, existing.updated_at = deal.profit_nano, utcnow()
                 await s.commit()
                 return existing
@@ -146,6 +148,7 @@ class Notifier:
                 price_nano=x.price_nano,
                 profit_nano=deal.profit_nano,
                 text=text,
+                payload=deal_snapshot(deal),
                 status="active",
                 sent_at=now,
                 updated_at=now,

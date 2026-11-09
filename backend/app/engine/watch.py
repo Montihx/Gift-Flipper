@@ -12,6 +12,7 @@ from collections.abc import Sequence
 from app.bot.notifier import AiogramApi, Notifier
 from app.db import make_engine, make_sessionmaker
 from app.engine.pipeline import Pipeline
+from app.engine.store import save_sales
 from app.markets.base import MarketClient
 from app.rules.repo import active_rules
 from app.settings import Settings
@@ -37,6 +38,9 @@ async def run_watch(settings: Settings, clients: Sequence[MarketClient], once: b
             async with sessions() as s:
                 rules = await active_rules(s, settings.owner_chat_id)
             res = await pipeline.run_cycle(rules, utcnow())
+            async with sessions() as s:
+                await save_sales(s, pipeline.sales)
+                await s.commit()
             log.info(
                 "цикл: листингов %s, оценено %s, пушей %s, продано %s, ошибок %s",
                 res.listings,

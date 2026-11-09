@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Any
 
-from sqlalchemy import BigInteger, Boolean, CheckConstraint, Index, String, UniqueConstraint
+from sqlalchemy import JSON, BigInteger, Boolean, CheckConstraint, Index, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base
@@ -28,6 +29,7 @@ class Alert(Base):
     price_nano: Mapped[int] = mapped_column(BigInteger)  # цена в последнем тексте
     profit_nano: Mapped[int | None] = mapped_column(BigInteger)
     text: Mapped[str] = mapped_column(String(4096))
+    payload: Mapped[dict[str, Any] | None] = mapped_column(JSON)  # снимок Deal для Mini App
     status: Mapped[str] = mapped_column(String(16), default="active")
     sent_at: Mapped[datetime]
     updated_at: Mapped[datetime]
