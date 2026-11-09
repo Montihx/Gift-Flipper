@@ -99,6 +99,7 @@ uv run python -m app.engine --dry-run --plan      # список живых за
 uv run python -m app.engine --dry-run --live --notify   # watch с пушами (LIVE_READS_APPROVED=yes)
 uv run python -m app.bot                           # команды бота, итог дня
 uv run python -m app.tools.login                   # вход Telethon (на ПК владельца)
+uv run uvicorn app.api.main:app --port 8000        # API для Mini App
 
 # webapp
 cd webapp && npm ci && npm run dev
