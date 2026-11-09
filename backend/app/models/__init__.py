@@ -2,5 +2,6 @@
 
 from app.models.base import Base
 from app.models.market import Listing, Sale
+from app.models.preset import Preset
 
-__all__ = ["Base", "Listing", "Sale"]
+__all__ = ["Base", "Listing", "Preset", "Sale"]
