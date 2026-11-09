@@ -1,55 +1,57 @@
 # Сводка Этапа 0 (исследование)
 
-Дата: 2026-11-09. Статус: **ЧАСТИЧНО** — часть источников прочитать не удалось (см. §1).
+Дата: 2026-11-09 (второй проход, по исходникам). Статус: **ГОТОВО** с оговорками в §5.
 
-> Как читать статусы. «README» = прочитана главная страница репозитория или страница PyPI (через WebFetch, это пересказ мелкой моделью, а не дословный текст). «Код» = исходники. Ни один исходный файл на этом проходе не читался: `gh api` и `raw.githubusercontent.com` в сессии закрыты, клонировать правилами проекта нельзя. Ничего не запускалось, не клонировалось и не скачивалось. Ни одна цифра комиссии не проверена на практике.
+> Как читать. «Код» — исходники, прочитанные как текст из клонов `git clone --depth 50` в отдельные папки вне проекта (D-004). «README» — только README. Ничего не запускалось, зависимости не ставились, релизы и бинарники не скачивались. Разделы I и J — только README через raw. Живых запросов к маркетам не было: пометки «проверено на живом ответе» нет ни у одного факта. Ни одна комиссия не проверена (D-009).
 
-## 1. Что реально прочитано
+## 1. Что прочитано
 
-| Репо / источник | Задание | Что прочитано | Отчёт |
-|---|---|---|---|
-| topcvetok/telegram-gift-watch | A | **не прочитано** (доступ закрыт) | `topcvetok__telegram-gift-watch.md` |
-| bleach-hub/portalsmp | B | README (PyPI + страница GitHub); код нет | `bleach-hub__portalsmp.md` |
-| bleach-hub/aportalsmp | B.4 | страница GitHub и PyPI; документация (gitbook) нет | `bleach-hub__aportalsmp.md` |
-| bleach-hub/tonnelmp | C | README (PyPI + страница GitHub); код нет | `bleach-hub__tonnelmp.md` |
-| TheBrainAir/amrkt | D | README (страница GitHub); код нет | `thebrainair__amrkt.md` |
-| boostNT/MRKT-API | D, E | README (страница GitHub) | `boostNT__MRKT-API.md` |
-| tgmrkt-api (PyPI) | D | почти ничего: страница PyPI закрыта, источников нет | `pypi__tgmrkt-api.md` |
-| boostNT/Portals-API | E | README (пересказ) | `boostNT__Portals-API.md` |
-| boostNT/Tonnel-API | E | README (пересказ) | `boostNT__Tonnel-API.md` |
-| kloveren/morgan-gift-plugins | F | только главная страница; плагины (алиасы, спред, giftstat) **не прочитаны** | `kloveren__morgan-gift-plugins.md` |
-| bohd4nx/gifts-buyer | G | **не прочитано** (только стороннее зеркало старой версии) | `bohd4nx__gifts-buyer.md` |
-| maxktz/telegram-gifts-radar | H | зеркала README и ecosyste.ms (не первоисточник) | `maxktz__telegram-gifts-radar.md` |
-| bohd4nx/gifts-tracker | H | **не прочитано** | `bohd4nx__gifts-tracker.md` |
-| 5 «снайперов» (раздел I) | I | **не прочитано** ни одного | `OnyxTarantulaLoop__…`, `smashguidetram__…`, `watchflowguide__…`, `SilentOverlordBrace__…`, `Townkibarrier__…` |
-| icfpztaorrmf/portals-nft-sniper, Kirilka4345/ton-telegram-gifts-sniper-bot, DAAMCS/gift-parser | J | **не прочитано**; «вероятная малварь» остаётся гипотезой задания, не вывод | соответствующие `.md` |
-| Закрытые сервисы | K | только публичные веб-сведения; экранов и Telegram нет | `ux/README.md` |
-| MTProto `payments.getUniqueStarGiftValueInfo` | 0.4 | схема и описания полей с core.telegram.org (через результаты поиска) + зеркала | §3 ниже, `MARKETS.md` |
+| Репо | Задание | Что прочитано | Коммит / дата | Лицензия | Доверие | Отчёт |
+|---|---|---|---|---|---|---|
+| topcvetok/telegram-gift-watch | A | весь код, конфиг, тесты/фикстуры, workflows, история | 05f658a / 2026-11-01 | нет | среднее–высокое как источник идей | `topcvetok__telegram-gift-watch.md` |
+| bleach-hub/portalsmp | B | весь код + история | 77fb217 / 2025-08-07 | MIT | среднее, домен устарел | `bleach-hub__portalsmp.md` |
+| bleach-hub/aportalsmp | B.4 | весь код | d1daafd / 2025-11-30 | нет файла; MIT на PyPI; **D-013: использовать разрешено** | среднее | `bleach-hub__aportalsmp.md` |
+| bleach-hub/tonnelmp | C | весь код + история | 68064f7 / 2025-07-07 (код 2025-06-17) | MIT | среднее, **может быть устаревшим** | `bleach-hub__tonnelmp.md` |
+| TheBrainAir/amrkt | D | весь код + история | 2a4dbf5 / 2026-03-22 | MIT | среднее | `thebrainair__amrkt.md` |
+| boostNT/MRKT-API, Portals-API, Tonnel-API | D, E | README (это весь репо) + история | 2026-02…03 | нет | среднее (документация) | `boostNT__*.md` |
+| tgmrkt-api (PyPI) | D | только JSON-метаданные PyPI | 0.1.0 / 2025-11-04 | MIT (классификатор) | низкое, исходников нет | `pypi__tgmrkt-api.md` |
+| kloveren/morgan-gift-plugins | F | весь код ключевых плагинов | 37637eb / 2026-03-27 | MIT | среднее; торговые плагины — антипример | `kloveren__morgan-gift-plugins.md` |
+| bohd4nx/gifts-buyer | G | **недоступен** (удалён/скрыт; варианты имён проверены) | — | — | — | `bohd4nx__gifts-buyer.md` |
+| bohd4nx/gifts-tracker | H | весь код + история | a243c21 / 2026-08-13 | нет | среднее | `bohd4nx__gifts-tracker.md` |
+| maxktz/telegram-gifts-radar | H | весь код + миграции + история (первоисточник) | 1ec0fc7 / 2025-01-27 | MIT | среднее | `maxktz__telegram-gifts-radar.md` |
+| OnyxTarantulaLoop, SilentOverlordBrace, smashguidetram, Townkibarrier | I | только README (raw, main) | — | «MIT © SilentOverlordBrace» на чужих ник | **ПОДОЗРИТЕЛЬНО** | по одному на репо |
+| watchflowguide/tonnel-telegram-gifts-sniper | I | **недоступен** (404) | — | — | — | `watchflowguide__….md` |
+| icfpztaorrmf/portals-nft-sniper | J | только README (копия обрезана на ~14,5 КБ) | — | — | **ПОДОЗРИТЕЛЬНО, вероятная малварь** | `icfpztaorrmf__….md` |
+| Kirilka4345/ton-telegram-gifts-sniper-bot | J | только README | — | — | низкое / подозрительно (платный модуль за перевод) | `Kirilka4345__….md` |
+| DAAMCS/gift-parser | J | только README | — | — | низкое, к флипу не относится | `DAAMCS__gift-parser.md` |
+| Закрытые сервисы | K | пропущено по решению владельца (скриншоты приложит сам в `ux/`) | — | — | — | `ux/README.md` |
 
-Пропуски, которые мешают больше всего: **код покупки/продажи/баланса у всех трёх маркетов, логика флора и фильтров topcvetok, WebSocket Tonnel, идеи предохранителей из «снайперов»**.
+Признаки малвари в разделе I: ссылка «.zip», ведущая на `.exe` в релизах; инструкция обойти SmartScreen; «только Windows» из‑за «packaged companion runtime»; README Onyx и Silent совпадают на 334 из 340 строк; `git clone` указывает на другие репо; автозапуск через `schtasks`. В разделе J (icfpztaorrmf): `.exe` с внешней страницы, импорт ключа кошелька, «mempool Ethereum» для off-chain маркета TON.
 
 ## 2. Матрица «функция → откуда берём → наш модуль»
 
-| Функция | Источник идеи | Наш модуль | Что уже известно | Статус |
+| Функция | Источник | Наш модуль | Что известно | Статус |
 |---|---|---|---|---|
-| Клиент Portals: поиск, коллекции | boostNT/Portals-API, portalsmp | `markets/portals.py` | `GET /api/nfts/search`, `GET /api/collections`; пагинация `offset/limit` (≤100); заголовок `Authorization: tma <initData>` | эндпоинты поиска есть (README); схема ответа неизвестна |
-| Клиент Portals: флоры, активность, покупка, листинг, офферы, баланс, вывод | portalsmp (имена функций) | `markets/portals.py` | Есть только имена функций и сигнатуры; пути и тела неизвестны | **пробел** (нужен код) |
-| Клиент MRKT: листинги | boostNT/MRKT-API, amrkt | `markets/mrkt.py` | `POST api.tgmrkt.io/api/v1/gifts/saling`, курсор, `count` ≤ 20; `POST /api/v1/auth {"data": initData}` → `token` | эндпоинты есть (README) |
-| Клиент MRKT: покупка, листинг, инвентарь, возврат, баланс, история/feed | amrkt, пакет `mrkts` (имена методов) | `markets/mrkt.py` | Имена методов и nanoTON; пути и тела неизвестны | **пробел** (нужен код) |
-| Клиент Tonnel: листинги | boostNT/Tonnel-API, tonnelmp | `markets/tonnel.py` | `POST gifts2.tonnel.network/api/pageGifts`; `limit` ≤ 30; фильтры строкой JSON; нужен `curl_cffi impersonate` | эндпоинт есть (README) |
-| Клиент Tonnel: покупка, листинг, баланс, история | tonnelmp (имена и параметры) | `markets/tonnel.py` | Параметры `buyGift/listForSale`; пути неизвестны | **пробел** |
-| Tonnel WebSocket событий | topcvetok | `markets/tonnel.py` | не подтверждён ни одним прочитанным источником | **пробел**, в Этапе 2 работать polling |
-| Получение `initData` / токенов | portalsmp, amrkt, boostNT | `markets/auth.py` (новый), Telethon | Portals: бот `portals`, short_name `market`; MRKT: `/auth`; Tonnel: `web-initData` из localStorage | идея ясна, детали Telethon проверить |
-| Флор по сопоставимым, кластерный флор | topcvetok, «снайперы» | `pricing/floor.py` | ничего не прочитано; определение есть в AGENTS.md §8 | **пробел** — проектируем сами |
-| Проверка продажами 24ч | topcvetok | `pricing/sales.py` | Источники продаж: MRKT `history/feed` (имена), Tonnel `saleHistory` (требует auth/можно пусто), Portals `marketActivity` (имя) | частично |
-| Оценка Telegram | MTProto | `pricing/tg_value.py` | Метод проверен по документации (§3) | подтверждено |
-| Комиссии, all-in, net | README tonnelmp (+10% к покупке), статьи | `pricing/fees.py` | противоречивые данные, ничего не проверено (`MARKETS.md` §5) | **не проверено** |
-| Алиасы коллекций, спред | morgan-gift-plugins | `pricing/aliases.py` | не прочитано; сопоставление названий можно строить из `collections` каждого маркета | **пробел** |
-| Красивые номера, монохром | topcvetok | `rules/traits.py` | не прочитано | **пробел** — проектируем сами |
-| Режимы, предохранители, `/doctor` | требования AGENTS.md, «снайперы» (не прочитаны) | `execution/` | берём из AGENTS.md и D-003 | проектируем сами |
-| Пуши + SOLD-обновление | topcvetok | `bot/` | не прочитано; в Bot API есть `editMessageText` (общеизвестно) | проектируем сами |
-| Резервный источник флоров | morgan (Giftstat), GiftAsset API | `pricing/` | GiftAsset: единый API с флорами и мульти-маркет данными (заявлено на их странице) — зацепка, не проверена | идея |
-| Новые подарки магазина | gifts-buyer, radar | (позже) | radar: опрос 30 с, GramJS, Prisma (по зеркалам) | не MVP |
+| Клиент Portals (чтение) | aportalsmp (D-013), topcvetok | `markets/portals.py` | `portal-market.com/api`; `nfts/search`, `collections`, `collections/floors`, `collections/filters`, `nfts/{id}`, `market/actions/`; без авторизации работают search/collections/nfts/{id}; цены — строки TON | **известно из кода** |
+| Portals: покупка/листинг/баланс/вывод | aportalsmp, portalsmp | `markets/portals.py` (только описание до Этапа 7) | `POST nfts`, `nfts/bulk-list`, `nfts/{id}/list`, `users/wallets/`, `users/wallets/withdraw`; успех покупки по `total_purchased` | известно из кода |
+| Клиент MRKT (чтение) | amrkt, boostNT, topcvetok (до b0e81f2) | `markets/mrkt.py` | `/auth`, `/gifts/saling`, `/gifts/collections`, `/feed`, `/gifts/gift/{id}`, `/balance`; nanoTON; заголовки `Authorization` + `Cookie access_token` + `Referer cdn.tgmrkt.io` | **известно из кода** |
+| MRKT: покупка/листинг | amrkt | `markets/mrkt.py` (описание) | `POST /gifts/buy {"Ids"}` — **без цены**; `/gifts/sale`, `/sale/cancel`, `/sale/change-price` | известно из кода; soft/hard — нет |
+| Клиент Tonnel (чтение) | tonnelmp, topcvetok | `markets/tonnel.py` | `gifts2.tonnel.network/api/pageGifts`, `filterStats`, `saleHistory`, `balance/info`; цены TON float; impersonate | из кода; tonnelmp проверить на актуальность |
+| Tonnel: события | topcvetok | `markets/tonnel.py` | WS `wss://gifts.coffin.meme/api/marketplace/ws` + догонка `GET /api/marketplace/events?after=` | **найдено** (раньше пробел); D-011 пересмотреть |
+| Tonnel: покупка/листинг | tonnelmp | `markets/tonnel.py` (описание) | `gifts.coffin.meme/api/buyGift/{id}`, `listForSale`, `cancelSale`; токен `wtf` (AES от timestamp) | из кода 2025-06, возможно устарело |
+| Получение initData | portalsmp/aportalsmp, amrkt | `markets/auth.py` (Telethon) | `requestAppWebView`: Portals `@portals`/`market`, MRKT `@mrkt`/`app`; вырезка `tgWebAppData` + `unquote`; Tonnel — бот/short_name **не найдены** | известно для Portals и MRKT |
+| Флор по сопоставимым | topcvetok + кластерный флор (I) | `pricing/floor.py` | topcvetok: флор = min остальных, кластер N (5 коллекция / 3 модель и фон), разброс N-го ≤ 8% / 20%, свой лот исключён. Раздел I: кластер ≥3 в +10%, доверие high/med/low, понижение при скачке > 25%/ч, запасной путь медиана 3 дешёвых → модель → символ → коллекция | **известно**, проектируем по AGENTS.md §8 + эти правила |
+| Сигнал «ниже флора» | topcvetok | `rules/` | скидка ≥ 15%, прибыль ≥ 100 ₽, ROI ≥ 15% после резерва 2%, флор ≥ 1000 ₽, лот ≤ 2000 ₽; основание «коллекция» по умолчанию выключено | известно из кода |
+| Проверка продажами 24 ч | topcvetok | `pricing/sales.py` | ≥3 продаж за 24 ч по тому же основанию → `resale = min(флор, медиана)`; источники: Tonnel `sale.completed` (WS), MRKT `/feed` type Sale; Portals — только `sales_24h_count` (у нас: `market/actions/` с `action_types=buy`, проверить) | известно |
+| Оценка Telegram | MTProto | `pricing/tg_value.py` | §3 ниже; раздел I: «выше средней и последней продажи при low-флоре → спросить» | подтверждено документацией |
+| Комиссии, net | раздел I (заявлено), tonnelmp README, фикстура topcvetok | `pricing/fees.py` | MRKT ≈2% надбавка (фикстура), Tonnel +10% (README), Portals 0/5% (заявлено) — `MARKETS.md` §6 | **не проверено** (D-009) |
+| Алиасы коллекций, спред | morgan-gift-plugins | `pricing/aliases.py` | таблицы для Portals/MRKT/Tonnel там нет (11 алиасов по on-chain адресам); нормализация lower + без пробелов/`_`/`-`; спред `(max−min)/min` без комиссий | строим сами из `collections` маркетов |
+| Резервный флор | Giftstat (morgan) | `pricing/` | `api.giftstat.app/current/collections/floor?marketplace=…`, без ключа; v2 с флорами по маркетам | идея, лимиты неизвестны |
+| Красивые номера | topcvetok | `rules/traits.py` | `len(set(digits)) ≤ 3` (настраивается 1–10) | известно |
+| Монохром | topcvetok (Clue) | `rules/traits.py` | `app.clue.tg/api/mono/resolve?url=<slug-n>` → `score`, порог 80, кэш 30 дней; свой расчёт возможен (фон по углам картинки Fragment + доминирующий цвет модели, ΔE) — в коде нет | Clue как внешний сигнал; свой — позже |
+| Режимы, предохранители, `/doctor` | раздел I (README), AGENTS.md | `execution/`, `bot/` | DRY_RUN-замок, live 24 ч, лимиты по all-in под локом, fail-closed на NaN, брейкеры, `/panic` в БД, кнопки со сроком жизни, lock-файл процесса, запись `unknown` до запроса | требования |
+| Пуши + «ПРОДАНО» | topcvetok, radar | `bot/` | храним `(market, gift_id, chat_id, message_id, offer_price)`; `editMessageText` с `🔴 ПРОДАНО`, кнопки снимаются; антидубль: повтор только при строго меньшей цене | известно из кода |
+| Новые подарки магазина | gifts-tracker, radar | (позже) | `payments.getStarGifts(hash)`, `StarGiftsNotModified`, 10–15 с | не MVP |
 
 ## 3. Проверка MTProto: `payments.getUniqueStarGiftValueInfo`
 
@@ -62,22 +64,25 @@
 - «Подарки того же типа» (`floor_price`, `average_price`, `listed_count`) — официальное описание не уточняет, коллекция это или модель/трейты. Нужна проверка на живых ответах.
 - Практический вывод: годится как **вспомогательный независимый сигнал** (последняя/средняя цена продаж по данным Telegram и флор перепродаж в Telegram), но не как единственный флор. Нужны живая пользовательская сессия, слой Telethon ≥ 212 (проверка версии библиотеки не выполнялась) и slug каждого подарка.
 
+
 ## 4. Риски
 
-1. **Неофициальные API.** Все эндпоинты — обратная разработка сайтов-Mini App; формат может меняться без предупреждения. Обёртки старые: portalsmp заархивирован 14.09.2025 (последний релиз 22.06.2025), tonnelmp — релиз 17.06.2025, aportalsmp — 24.11.2025. Им нельзя доверять как актуальной спецификации.
-2. **Доступ и сроки токенов.** Срок жизни `initData`/токенов нигде не подтверждён (оценки: «более суток», 1–7 суток). Нужен перевыпуск по 401, а не расписание.
-3. **ToS маркетов и Telegram.** Автоматизация клиентских сессий (Telethon, имитация браузера) может нарушать правила маркетов; возможна блокировка аккаунта или IP. Правила маркетов не читались.
-4. **Защита от ботов.** Tonnel: обычные `requests/httpx` не работают, нужен `curl_cffi` с имитацией Chrome; сам механизм защиты не раскрыт. Может измениться.
-5. **Комиссии не проверены и противоречивы** (`MARKETS.md` §5). Если расхождение «купить/продать» меньше суммарных комиссий, флип в минус. Пока нельзя считать честный net.
-6. **Безопасность исполнителя.** Пользовательский `initData` и сессия Telethon дают доступ к аккаунту и кошельку; хранить только в секретах (AGENTS.md §4). «Снайперы» с .exe остаются непроверенной гипотезой задания, но правило «не запускать» в силе.
-7. **Низкое качество публичных источников.** Статьи dev.to/ton-adoption — партнёрский контент, цифры противоречат друг другу; не использовать как источник комиссий.
-8. **Гонки при покупке.** Листинг может исчезнуть/измениться между показом и покупкой; нужна запись «результат неизвестен» до запроса (требование плана Этапа 7).
+1. **Неофициальные API.** Все пути — обратная разработка Mini App. Домен Portals уже менялся дважды; tonnelmp не обновлялся с 2025-06; topcvetok за 3 недели переключил MRKT на сторонний агрегатор. Каждый путь подтверждаем живым ответом на Этапе 2 и держим в одном месте (`markets/*.py`).
+2. **Покупка MRKT без цены.** `POST /gifts/buy {"Ids"}` не передаёт цену — купим по текущей, даже если её подняли. В `execution.spend()` нужна повторная проверка цены непосредственно перед запросом и лимит на all-in (Этап 7).
+3. **Успех покупки Portals не по HTTP-коду**, а по `total_purchased`/`purchase_results[].status`. Ответы Tonnel на покупку известны только из подозрительного README.
+4. **Защита Tonnel.** Cloudflare (403 без имитации TLS) и токен `wtf` с парольной фразой фронтенда, которая может меняться.
+5. **`gifts.coffin.meme`** — сторонний домен, через который идут события и деньги Tonnel. По косвенным признакам это бэкенд Tonnel, но владелец не установлен.
+6. **Сроки токенов** не известны; перевыпуск по 401 (D-005).
+7. **ToS и бан аккаунта.** Автоматизация пользовательской сессии; клиенты, выдающие себя за TDesktop с публичным api_id (gifts-tracker), — рискованная практика, не повторяем.
+8. **Комиссии противоречивы** (`MARKETS.md` §6). До проверки владельцем net — только «оценка».
+9. **Малварь в экосистеме.** Раздел I и icfpztaorrmf — типичные приманки (exe + логин в Telegram / ключ кошелька). Ничего не скачивали.
+10. **Антипримеры исполнения** (morgan): подпись присланных сервером транзакций без проверки адресатов/сумм, мнемоника открытым текстом. В `execution/` так не делаем.
 
-## 5. Что нужно, чтобы закрыть Этап 0
+## 5. Что осталось открытым после Этапа 0
 
-Любое из двух (решение за владельцем проекта):
-
-- (a) добавить `github.com`, `raw.githubusercontent.com`, `api.github.com` (и при желании `bleach-1.gitbook.io`, `core.telegram.org`) в allowlist сессии — тогда пройти исходники повторно по-прежнему только чтением;
-- (b) явно разрешить `git clone --depth 1` в отдельные пустые каталоги **только для чтения как текст, без запуска и установки**, кроме репозиториев раздела I/J (их — только README).
-
-Кроме того: UX-разбор закрытых сервисов (K) требует человека в Telegram — скриншоты и сценарии (см. `ux/README.md`).
+- **Живые форматы ответов** (Этап 2, запись фикстур через Telethon-сессию владельца, только чтение, после согласования списка запросов).
+- **Бот и short_name Mini App Tonnel** для `requestAppWebView` — в коде не найдено; нужно у владельца или на живом шаге.
+- **soft/hard баланс MRKT** — в коде не объяснено.
+- **Комиссии** — проверка владельцем (условие Этапа 7).
+- **gifts-buyer** и **watchflowguide** — репозитории недоступны.
+- **UX закрытых сервисов (K)** — скриншоты владельца в `docs/research/ux/`.
